@@ -1,4 +1,4 @@
-const data = require("../data/zoo_data");
+const data = require('../data/zoo_data');
 
 function getSpeciesByIds(...ids) {
   if (ids.length === 0) {
@@ -6,8 +6,7 @@ function getSpeciesByIds(...ids) {
   }
   if (ids.length >= 1) {
     return data.species.filter((index) =>
-      ids.some(id => index.id === id));
-
+      ids.some((id) => index.id === id));
     // let resultado = [];
     // ids.forEach((id) => {
     //   let filtrado = data.species.filter((specie) => {
@@ -19,17 +18,12 @@ function getSpeciesByIds(...ids) {
     // });
     // return resultado;
   }
-  // else {
-  //   return data.species.filter((animal, indice ) => animal.id ===ids[indice]);
-
-  // }
 }
-
-console.log(
-  getSpeciesByIds(
-    "e8481c1d-42ea-4610-8e11-1752cfc05a46",
-    "0938aa23-f153-4937-9f88-4858b24d6bce"
-  )
-);
+// console.log(
+//   getSpeciesByIds(
+//     "e8481c1d-42ea-4610-8e11-1752cfc05a46",
+//     "0938aa23-f153-4937-9f88-4858b24d6bce"
+//   )
+// );
 
 module.exports = getSpeciesByIds;
