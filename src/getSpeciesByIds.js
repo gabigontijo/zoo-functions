@@ -19,6 +19,7 @@ function getSpeciesByIds(...ids) {
     // return resultado;
   }
 }
+
 // console.log(
 //   getSpeciesByIds(
 //     "e8481c1d-42ea-4610-8e11-1752cfc05a46",
