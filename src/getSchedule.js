@@ -3,13 +3,12 @@ const data = require('../data/zoo_data');
 
 const weekDays = Object.keys(hours);
 const animalNames = species.map((names) => names.name);
-const ObjSchedule = {};
 const mondayObject = { officeHour: 'CLOSED', exhibition: 'The zoo will be closed!' };
 
 const scheduleAnimal = (scheduleTarget) => species.find((nameAnimal) =>
   nameAnimal.name === scheduleTarget).availability;
 
-const createOfficeHourAndexhibition = (day) => {
+const createOfficeHourAndexhibition = (day, ObjSchedule) => {
   ObjSchedule[day] = {};
   ObjSchedule[day].officeHour = `Open from ${hours[day].open}am until ${hours[day].close}pm`;
   ObjSchedule[day].exhibition = [];
@@ -21,36 +20,38 @@ const createOfficeHourAndexhibition = (day) => {
   return ObjSchedule;
 };
 
-const getObjectHours = (day) => {
+const getObjectHours = (day, ObjSchedule) => {
   if (day === 'Monday') {
     ObjSchedule[day] = mondayObject;
   } else {
-    createOfficeHourAndexhibition(day);
+    createOfficeHourAndexhibition(day, ObjSchedule);
   }
   return ObjSchedule;
 };
 
-const getObjectHoursNull = () => {
+const getObjectHoursNull = (ObjSchedule) => {
   Object.keys(hours).forEach((allDay) => {
     if (allDay === 'Monday') {
       ObjSchedule[allDay] = mondayObject;
     } else {
-      createOfficeHourAndexhibition(allDay);
+      createOfficeHourAndexhibition(allDay, ObjSchedule);
     }
   });
   return ObjSchedule;
 };
 
 function getSchedule(scheduleTarget) {
+  const ObjSchedule = {};
   if (animalNames.includes(scheduleTarget)) {
     return scheduleAnimal(scheduleTarget);
   }
   if ((!animalNames.includes(scheduleTarget) && !weekDays.includes(scheduleTarget))
     || scheduleTarget === undefined) {
-    return getObjectHoursNull();
+    return getObjectHoursNull(ObjSchedule);
   }
-  return getObjectHours(scheduleTarget);
+  return getObjectHours(scheduleTarget, ObjSchedule);
 }
 
-console.log(getSchedule('lions'));
+console.log(getSchedule());
+
 module.exports = getSchedule;
