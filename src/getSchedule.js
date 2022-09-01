@@ -9,20 +9,22 @@ const scheduleAnimal = (scheduleTarget) => species.find((nameAnimal) =>
   nameAnimal.name === scheduleTarget).availability;
 
 const createOfficeHourAndexhibition = (day, ObjSchedule) => {
-  ObjSchedule[day] = {};
-  ObjSchedule[day].officeHour = `Open from ${hours[day].open}am until ${hours[day].close}pm`;
-  ObjSchedule[day].exhibition = [];
+  const obj = ObjSchedule;
+  obj[day] = {};
+  obj[day].officeHour = `Open from ${hours[day].open}am until ${hours[day].close}pm`;
+  obj[day].exhibition = [];
   species.forEach((animalDays) => {
     if (animalDays.availability.includes(day)) {
-      ObjSchedule[day].exhibition.push(animalDays.name);
+      obj[day].exhibition.push(animalDays.name);
     }
   });
-  return ObjSchedule;
+  return obj;
 };
 
 const getObjectHours = (day, ObjSchedule) => {
+  const obj = ObjSchedule;
   if (day === 'Monday') {
-    ObjSchedule[day] = mondayObject;
+    obj[day] = mondayObject;
   } else {
     createOfficeHourAndexhibition(day, ObjSchedule);
   }
@@ -30,9 +32,10 @@ const getObjectHours = (day, ObjSchedule) => {
 };
 
 const getObjectHoursNull = (ObjSchedule) => {
+  const obj = ObjSchedule;
   Object.keys(hours).forEach((allDay) => {
     if (allDay === 'Monday') {
-      ObjSchedule[allDay] = mondayObject;
+      obj[allDay] = mondayObject;
     } else {
       createOfficeHourAndexhibition(allDay, ObjSchedule);
     }
