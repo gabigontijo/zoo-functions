@@ -9,8 +9,7 @@ function getOldestFromFirstSpecies(id) {
   const firstSpecie = species.find((specie) => specie.id === firstAnimal).residents;
   // console.log(firstSpecie);
   const olderAge = firstSpecie.reduce((acc, animal) => (
-    (acc > animal.age) ? acc : animal.age
-  ), 0);
+    (acc > animal.age) ? acc : animal.age), 0);
   const olderAnimal = firstSpecie.find((older) => older.age === olderAge);
   console.log(olderAnimal);
   return [olderAnimal.name, olderAnimal.sex, olderAnimal.age];
