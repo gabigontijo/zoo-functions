@@ -6,28 +6,34 @@ const locations = species.map((location) => location.location).reduce((acc, curr
     acc.push(curr);
   }
   return acc;
-}, [])
+}, []);
 
-const includesNamesOnly = () => {
-  return locations.reduce((acc, curr) => {
-    const animals = species.filter((animal) => animal.location === curr).
-      flatMap((animal) => animal.name);
-    animals.forEach((wichAnimal) => {
-      if (acc[curr] === undefined) {
-        acc[curr] = [];
+const filterSex = (options, wichAnimal) => {
+  let { residents } = species.find((name) => name.name === wichAnimal);
+  if (options.sex !== undefined) {
+    residents = residents.filter((res) => {
+      if (options.sex === 'male') {
+        return res.sex === 'male';
       }
-      obj = {};
-      obj[wichAnimal] = species.find((name) => name.name === wichAnimal).residents.
-        flatMap((name) => name.name);
-      acc[curr].push(obj);
-    })
-    return acc;
-  }, {})
- }
+      return res.sex === 'female';
+    });
+  }
+  return residents;
+};
 
-// const includesNamesAndSex = ((parametro) =>{});
-
-// const sort = ((parametro) => {})
+const includesNamesOnly = (options) => locations.reduce((acc, curr) => {
+  const animals = species.filter((animal) => animal.location === curr)
+    .flatMap((animal) => animal.name);
+  animals.forEach((wichAnimal) => {
+    if (acc[curr] === undefined) {
+      acc[curr] = [];
+    }
+    const obj = {};
+    obj[wichAnimal] = filterSex(options, wichAnimal).flatMap((name) => name.name);
+    acc[curr].push(obj);
+  });
+  return acc;
+}, {});
 
 const parametroUndefinid = () => {
   const objparametroUndefinid = species.map((location) => location.location).reduce((acc, curr) => {
@@ -37,14 +43,33 @@ const parametroUndefinid = () => {
   return objparametroUndefinid;
 };
 
+const sortResult = (animalMap, options) => {
+  if (options.sorted !== undefined && options.sorted) {
+    const animalKeys = Object.keys(animalMap);
+    animalKeys.forEach((location) => {
+      animalMap[location].forEach((animal) => {
+        const residents = animal[Object.keys(animal)[0]];
+        residents.sort();
+      });
+    });
+  }
+  return animalMap;
+};
+
 function getAnimalMap(options) {
   if (options === undefined || options.includeNames === undefined) {
     return parametroUndefinid();
   }
   if (options.includeNames !== undefined) {
-    return includesNamesOnly();
+    return sortResult(includesNamesOnly(options), options);
   }
 }
-console.log(getAnimalMap({ includeNames: true }))
+console.log(JSON.stringify(getAnimalMap(
+  {
+    includeNames: true,
+    sex: 'female',
+    sorted: true,
+  },
+), null, 2));
 
 module.exports = getAnimalMap;
